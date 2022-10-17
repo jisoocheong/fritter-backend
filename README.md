@@ -313,3 +313,98 @@ This renders the `index.html` file that will be used to interact with the backen
 **Throws**
 
 - `403` if the user is not logged in
+
+
+#### `GET /`
+
+This renders the `index.html` file that will be used to interact with the backend
+
+#### `GET /api/bookmarks` - Get all the bookmarks
+
+**Returns**
+
+- An array of all bookmarks sorted in descending order by date modified
+
+#### `GET /api/bookmarks?author=USERNAME` - Get bookmarks by author
+
+**Returns**
+
+- An array of freets created by user with username `author`
+
+**Throws**
+
+- `400` if `author` is not given
+- `404` if `author` is not a recognized username of any user
+
+#### `POST /api/bookmarks` - add a new freet
+
+**Body**
+
+- `content` _{string}_ - The content of the freet
+
+**Returns**
+
+- A success message
+- A object with the created freet
+
+**Throws**
+
+- `403` if the user is not logged in
+- `400` If the freet content is empty or a stream of empty spaces
+- `413` If the freet content is more than 140 characters long
+
+#### `DELETE /api/bookmarks/:bookmarksId?` - Delete an existing bookmarks
+
+**Returns**
+
+- A success message
+
+**Throws**
+
+- `403` if the user is not logged in
+- `403` if the user is not the author of the freet
+- `404` if the bookmarksId is invalid
+
+#### `PUT /api/bookmarks/:bookmarks?` - Update an existing freet
+
+**Body**
+
+- `content` _{string}_ - The new content of the freet
+
+**Returns**
+
+- A success message
+- An object with the updated bookmarks
+
+**Throws**
+
+- `403` if the user is not logged in
+- `404` if the bookmarksId is invalid
+- `403` if the user is not the author of the freet
+- `400` if the new bookmarks content is empty or a stream of empty spaces
+- `413` if the new bookmarks content is more than 140 characters long
+
+
+#### `GET /api/mode` - Get the mode
+
+**Returns**
+
+- The current mode
+
+**Throws**
+
+#### `POST /api/mode` - updates to a new mode
+
+**Body**
+
+- `content` _{string}_ - The content of the mode
+
+**Returns**
+
+- A success message
+- The mode
+
+**Throws**
+
+- `403` if the user is not logged in
+
