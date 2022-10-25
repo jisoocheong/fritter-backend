@@ -313,3 +313,141 @@ This renders the `index.html` file that will be used to interact with the backen
 **Throws**
 
 - `403` if the user is not logged in
+
+#### `GET /api/bookmarks?user=USERNAME&isPublic=BOOLEAN` - Get the bookmarks of USERNAME
+
+**Returns**
+
+- An array of all of user's bookmarks sorted in descending order by date. If the logged in user is not the same as this user, then only public bookmarks can be seen.
+
+**Throws**
+
+- `400` if `user` is not given
+- `403` if the user is not logged in
+- `404` if `user` is not a recognized username of any user
+- `409` if user in session is trying to look at another user's private bookmarks
+
+#### `PUT /api/bookmarks?freetId=ID&isPublic=BOOLEAN` - Adds or updates a bookmark under the user's respective (public or private) bookmark section. If the bookmark already exists but under different mode, then the mode will toggle. 
+
+**Returns**
+
+- A success meessage
+- The bookmark added
+
+**Throws**
+
+- `403` if the user is not logged in
+- `404` if `freetID` is not a recognized id of any freet
+
+#### `DELETE /api/bookmarks?freetId=ID` - Removes the bookmark under the user
+
+**Returns**
+
+- A success meessage
+
+**Throws**
+
+- `400` if `freetId` is not given
+- `403` if the user is not logged in
+- `404` if `freetID` is not a recognized id of any freet or not under the user's bookmarks
+
+#### `GET /api/likes?freetId=ID` - Gets all the likes of the freet
+
+**Returns**
+
+- An array of all the users that liked the freet
+
+**Throws**
+
+- `400` if `freetId` is not given
+- `403` if the user is not logged in
+- `404` if `freetID` is not a recognized id of any freet 
+
+#### `PUT /api/likes?freetId=ID` - Adds a like to the freet if haven't already done so
+
+**Returns**
+
+- A success message
+
+**Throws**
+
+- `400` if `freetId` is not given
+- `403` if the user is not logged in
+- `404` if `freetId` is not a recognized id of any freet 
+
+#### `DELETE /api/likes?freetId=ID` - Removes a like of the freet
+
+**Returns**
+
+- A success message
+
+**Throws**
+
+- `400` if `freetId` is not given
+- `403` if the user is not logged in
+- `404` if `freetId` is not a recognized id of any freet 
+- `409` if the user didn't like `freeId` before
+
+#### `GET /api/comments?freetId=ID` - Gets all of the comments for the freet
+
+**Returns**
+
+- An array of all the comments 
+
+**Throws**
+
+- `400` if `freetId` is not given
+- `403` if the user is not logged in
+- `404` if `freetId` is not a recognized id of any freet 
+
+#### `POST /api/comments?freetId=ID` - Add a comment for the freet
+
+**Body**
+
+- `content` _{string}_ - The content of the comment
+
+**Returns**
+
+- A success message
+- The created comment
+
+**Throws**
+
+- `400` if `freetId` is not given
+- `403` if the user is not logged in
+- `404` if `freetId` is not a recognized id of any freet 
+
+#### `DELETE /api/comments?freetId=ID&commentId=ID` - Removes an existing comment for the freet
+
+**Returns**
+
+- A success message
+
+**Throws**
+
+- `400` if `commentId` or `freetId` is not given
+- `403` if the user is not logged in
+- `404` if `commentId` or `freetId` is not a recognized id of any comment or freet
+
+#### `GET /api/viewing` - Get the user's mode
+
+**Returns**
+
+- The mode the user is in
+
+**Throws**
+
+- `403` if the user is not logged in
+
+#### `PUT /api/viewing?mode=MODE` - Set the user's mode to MODE
+
+**Returns**
+
+- A success message
+
+**Throws**
+
+- `400` if `mode` is not given
+- `403` if the user is not logged in
+- `404` if `mode` is not a recognized mode 
+
