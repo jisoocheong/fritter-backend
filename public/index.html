@@ -124,7 +124,40 @@
             <label for="content">Add Freet ID:</label>
             <textarea id="content" name="content"></textarea>
           </div>
+          <input type="radio" id="public_bookmark" name="mode" value="Public_bookmark">
+           <label for="public_bookmark">Public</label><br>
+           <input type="radio" id="private_bookmark" name="mode" value="Private_bookmark">
+           <label for="private_bookmark">Private</label><br>
           <input type="submit" value="Create Bookmark">
+        </form>
+
+        <form id="remove-bookmark">
+          <h3>Remove Bookmark</h3>
+          <div>
+            <label for="content">Freet ID:</label>
+            <textarea id="content" name="content"></textarea>
+            <input type="submit" value="Remove Bookmark">
+          </div>
+        </form>
+
+        <form id="like-freet">
+          <h3>Like Freet</h3>
+          <div>
+            <label for="content">Freet ID:</label>
+            <textarea id="content" name="content"></textarea>
+            <input type="submit" value="Like Freet">
+          </div>
+        </form>
+
+        <form id="make-comment">
+          <h3>Make Comment</h3>
+          <div>
+            <label for="content">Freet ID:</label>
+            <textarea id="content" name="content"></textarea>
+            <label for="content">Content:</label>
+            <textarea id="content" name="content"></textarea>
+            <input type="submit" value="Make Comment">
+          </div>
         </form>
       </div>
     </section>
