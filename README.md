@@ -450,4 +450,3 @@ This renders the `index.html` file that will be used to interact with the backen
 - `400` if `mode` is not given
 - `403` if the user is not logged in
 - `404` if `mode` is not a recognized mode 
-
