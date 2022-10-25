@@ -314,46 +314,110 @@ This renders the `index.html` file that will be used to interact with the backen
 
 - `403` if the user is not logged in
 
-
-#### `GET /`
-
-This renders the `index.html` file that will be used to interact with the backend
-
-#### `GET /api/bookmarks` - Get all the bookmarks
+#### `GET /api/bookmarks?user=USERNAME&isPublic=BOOLEAN` - Get the bookmarks of USERNAME
 
 **Returns**
 
-- An array of all bookmarks sorted in descending order by date modified
-
-#### `GET /api/bookmarks?author=USERNAME` - Get bookmarks by author
-
-**Returns**
-
-- An array of freets created by user with username `author`
+- An array of all of user's bookmarks sorted in descending order by date. If the logged in user is not the same as this user, then only public bookmarks can be seen.
 
 **Throws**
 
-- `400` if `author` is not given
-- `404` if `author` is not a recognized username of any user
+- `400` if `user` is not given
+- `403` if the user is not logged in
+- `404` if `user` is not a recognized username of any user
+- `409` if user in session is trying to look at another user's private bookmarks
 
-#### `POST /api/bookmarks` - add a new freet
+#### `PUT /api/bookmarks?freetId=ID&isPublic=BOOLEAN` - Adds or updates a bookmark under the user's respective (public or private) bookmark section. If the bookmark already exists but under different mode, then the mode will toggle. 
+
+**Returns**
+
+- A success meessage
+- The bookmark added
+
+**Throws**
+
+- `403` if the user is not logged in
+- `404` if `freetID` is not a recognized id of any freet
+
+#### `DELETE /api/bookmarks?freetId=ID` - Removes the bookmark under the user
+
+**Returns**
+
+- A success meessage
+
+**Throws**
+
+- `400` if `freetId` is not given
+- `403` if the user is not logged in
+- `404` if `freetID` is not a recognized id of any freet or not under the user's bookmarks
+
+#### `GET /api/likes?freetId=ID` - Gets all the likes of the freet
+
+**Returns**
+
+- An array of all the users that liked the freet
+
+**Throws**
+
+- `400` if `freetId` is not given
+- `403` if the user is not logged in
+- `404` if `freetID` is not a recognized id of any freet 
+
+#### `PUT /api/likes?freetId=ID` - Adds a like to the freet if haven't already done so
+
+**Returns**
+
+- A success message
+
+**Throws**
+
+- `400` if `freetId` is not given
+- `403` if the user is not logged in
+- `404` if `freetId` is not a recognized id of any freet 
+
+#### `DELETE /api/likes?freetId=ID` - Removes a like of the freet
+
+**Returns**
+
+- A success message
+
+**Throws**
+
+- `400` if `freetId` is not given
+- `403` if the user is not logged in
+- `404` if `freetId` is not a recognized id of any freet 
+- `409` if the user didn't like `freeId` before
+
+#### `GET /api/comments?freetId=ID` - Gets all of the comments for the freet
+
+**Returns**
+
+- An array of all the comments 
+
+**Throws**
+
+- `400` if `freetId` is not given
+- `403` if the user is not logged in
+- `404` if `freetId` is not a recognized id of any freet 
+
+#### `POST /api/comments?freetId=ID` - Add a comment for the freet
 
 **Body**
 
-- `content` _{string}_ - The content of the freet
+- `content` _{string}_ - The content of the comment
 
 **Returns**
 
 - A success message
-- A object with the created freet
+- The created comment
 
 **Throws**
 
+- `400` if `freetId` is not given
 - `403` if the user is not logged in
-- `400` If the freet content is empty or a stream of empty spaces
-- `413` If the freet content is more than 140 characters long
+- `404` if `freetId` is not a recognized id of any freet 
 
-#### `DELETE /api/bookmarks/:bookmarksId?` - Delete an existing bookmarks
+#### `DELETE /api/comments?freetId=ID&commentId=ID` - Removes an existing comment for the freet
 
 **Returns**
 
@@ -361,50 +425,28 @@ This renders the `index.html` file that will be used to interact with the backen
 
 **Throws**
 
+- `400` if `commentId` or `freetId` is not given
 - `403` if the user is not logged in
-- `403` if the user is not the author of the freet
-- `404` if the bookmarksId is invalid
+- `404` if `commentId` or `freetId` is not a recognized id of any comment or freet
 
-#### `PUT /api/bookmarks/:bookmarks?` - Update an existing freet
-
-**Body**
-
-- `content` _{string}_ - The new content of the freet
+#### `GET /api/viewing` - Get the user's mode
 
 **Returns**
 
-- A success message
-- An object with the updated bookmarks
-
-**Throws**
-
-- `403` if the user is not logged in
-- `404` if the bookmarksId is invalid
-- `403` if the user is not the author of the freet
-- `400` if the new bookmarks content is empty or a stream of empty spaces
-- `413` if the new bookmarks content is more than 140 characters long
-
-
-#### `GET /api/mode` - Get the mode
-
-**Returns**
-
-- The current mode
-
-**Throws**
-
-#### `POST /api/mode` - updates to a new mode
-
-**Body**
-
-- `content` _{string}_ - The content of the mode
-
-**Returns**
-
-- A success message
-- The mode
+- The mode the user is in
 
 **Throws**
 
 - `403` if the user is not logged in
 
+#### `PUT /api/viewing?mode=MODE` - Set the user's mode to MODE
+
+**Returns**
+
+- A success message
+
+**Throws**
+
+- `400` if `mode` is not given
+- `403` if the user is not logged in
+- `404` if `mode` is not a recognized mode 
