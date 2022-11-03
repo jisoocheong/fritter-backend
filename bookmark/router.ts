@@ -3,7 +3,7 @@ import express from 'express';
 import BookmarkCollection from './collection';
 import * as userValidator from '../user/middleware';
 import * as freetValidator from '../freet/middleware';
-// import * as util from './util';
+import * as util from './util';
 import { User } from 'user/model';
 
 
@@ -41,33 +41,33 @@ router.get(
   }
 );
 
-// /**
-//  * Create a new bookmark.
-//  *
-//  * @name POST /api/bookmarks/
-//  *
-//  * @param {string} content - The content of the freet
-//  * @return {FreetResponse} - The bookmark freet
-//  * @throws {403} - If the user is not logged in
-//  * @throws {400} - If the freet content is empty or a stream of empty spaces
-//  * @throws {413} - If the freet content is more than 140 characters long
-//  */
-//  router.post(
-//     '/',
-//     [
-//       userValidator.isUserLoggedIn,
-//       freetValidator.isValidFreetContent
-//     ],
-//     async (req: Request, res: Response) => {
-//       const userId = (req.session.userId as string) ?? ''; // Will not be an empty string since its validated in isUserLoggedIn
-//       const freet = await FreetCollection.addOne(userId, req.body.content);
+/**
+ * Create a new bookmark.
+ *
+ * @name POST /api/bookmarks/
+ *
+ * @param {string} content - The content of the freet
+ * @return {FreetResponse} - The bookmark freet
+ * @throws {403} - If the user is not logged in
+ * @throws {400} - If the freet content is empty or a stream of empty spaces
+ * @throws {413} - If the freet content is more than 140 characters long
+ */
+ router.post(
+    '/',
+    [
+      userValidator.isUserLoggedIn,
+      freetValidator.isValidFreetContent
+    ],
+    async (req: Request, res: Response) => {
+      // const userId = (req.session.userId as string) ?? ''; // Will not be an empty string since its validated in isUserLoggedIn
+      const freet = await BookmarkCollection.addOne(req.session.userId, req.body.content, true);
   
-//       res.status(201).json({
-//         message: 'Your freet was created successfully.',
-//         freet: util.constructFreetResponse(freet)
-//       });
-//     }
-//   );
+      res.status(201).json({
+        message: 'Your bookmark was created successfully.',
+        freet: util.constructBookmarkResponse(freet)
+      });
+    }
+  );
 
 
 export {router as freetRouter};

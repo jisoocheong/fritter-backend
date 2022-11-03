@@ -46,6 +46,19 @@ class BookmarkCollection {
         return BookmarkModel.find({authorId: author._id}).populate('authorId');
 
       }
+
+    /**
+   * Retrieves a bookmark by its id.
+   *
+   * @param {string} bookmarkId - The userId of user that we are getting bookmarks from
+   * @return Bookmark bookmark - An array of all of the Bookmark
+   */
+     static async findOne(bookmarkId: string): Promise<Bookmark> {
+      // const author = await UserCollection.findOneByUsername(userId);
+      return BookmarkModel.findById(bookmarkId);
+
+    }
+    
 }
 
 export default BookmarkCollection;

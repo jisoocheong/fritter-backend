@@ -48,7 +48,7 @@ const isValidBookmarkContent = (req: Request, res: Response, next: NextFunction)
  */
 const isValidBookmarkModifier = async (req: Request, res: Response, next: NextFunction) => {
   const bookmark = await BookmarkCollection.findOne(req.params.bookmarkId);
-  const userId = bookmark.authorId._id;
+  const userId = bookmark.userId._id;
   if (req.session.userId !== userId.toString()) {
     res.status(403).json({
       error: 'Cannot modify other users\' bookmarks.'

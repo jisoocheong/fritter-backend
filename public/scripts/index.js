@@ -39,7 +39,7 @@ const formsAndHandlers = {
   'create-freet': createFreet,
   'edit-freet': editFreet,
   'delete-freet': deleteFreet,
-  'create-bookmark':createBookmark
+  'create-bookmark': createBookmark
 };
 
 // Attach handlers to forms

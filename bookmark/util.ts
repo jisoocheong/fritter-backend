@@ -1,14 +1,14 @@
 import type {HydratedDocument} from 'mongoose';
 import moment from 'moment';
-import type {Bookmark, PopulatedBookmark} from '../bookmark/model';
+import type {Bookmark} from '../bookmark/model';
+import { Freet } from 'freet/model';
 
 // Update this if you add a property to the Bookmark type!
 type BookmarkResponse = {
   _id: string;
-  author: string;
-  dateCreated: string;
+  user: string;
+  freet: Freet;
   content: string;
-  dateModified: string;
 };
 
 /**
@@ -27,19 +27,31 @@ const formatDate = (date: Date): string => moment(date).format('MMMM Do YYYY, h:
  * @returns {BookmarkResponse} - The bookmark object formatted for the frontend
  */
 const constructBookmarkResponse = (bookmark: HydratedDocument<Bookmark>): BookmarkResponse => {
-  const bookmarkCopy: PopulatedBookmark = {
+  const bookmarkCopy: Bookmark = {
     ...bookmark.toObject({
       versionKey: false // Cosmetics; prevents returning of __v property
     })
   };
-  const {username} = bookmarkCopy.authorId;
-  delete bookmarkCopy.authorId;
+
+  // const userCopy: User = {
+  //   ...user.toObject({
+  //     versionKey: false // Cosmetics; prevents returning of __v property
+  //   })
+  // };
+  // delete userCopy.password;
+  // return {
+  //   ...userCopy,
+  //   _id: userCopy._id.toString(),
+  //   dateJoined: formatDate(user.dateJoined)
+  // };
+  const {username} = bookmarkCopy.userId;
+  delete bookmarkCopy.userId;
   return {
     ...bookmarkCopy,
     _id: bookmarkCopy._id.toString(),
-    author: username,
-    dateCreated: formatDate(bookmark.dateCreated),
-    dateModified: formatDate(bookmark.dateModified)
+    user: username,
+    freet: bookmarkCopy.freetId,
+    content: bookmarkCopy.freetId.content
   };
 };
 
